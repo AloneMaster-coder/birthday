@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Secret Birthday Access</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: monospace;
+}
+
+body{
+    background:black;
+    overflow:hidden;
+    color:#00ff66;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+.center{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.box{
+    border:2px solid #00ff66;
+    padding:30px;
+    width:320px;
+    background:rgba(0,0,0,0.8);
+    box-shadow:0 0 20px #00ff66;
+    animation:glow 1s infinite alternate;
+}
+
+@keyframes glow{
+    from{
+        box-shadow:0 0 10px #00ff66;
+    }
+    to{
+        box-shadow:0 0 30px #00ff66;
+    }
+}
+
+h1{
+    margin-bottom:20px;
+    font-size:22px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    background:black;
+    border:1px solid #00ff66;
+    color:#00ff66;
+    margin-bottom:15px;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#00ff66;
+    border:none;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:white;
+}
+
+#gift{
+    display:none;
+    font-size:30px;
+    animation:zoom 1s ease;
+}
+
+@keyframes zoom{
+    from{
+        transform:scale(0);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.message{
+    margin-top:20px;
+    font-size:20px;
+    color:white;
+    max-width: 700px;
+    text-align: center;
+}
+
+.type{
+    white-space: pre-line;
+    line-height: 1.8;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    animation:blind .7s infinite;
+}
+
+@keyframes typing{
+    to{
+        width:100%;
+    }
+}
+
+@keyframes blink{
+    50%{
+        border-color:transparent;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="center">
+
+<div class="box" id="loginBox">
+<h1>🔐 SECRET ACCESS</h1>
+
+<input type="password" id="pass" placeholder="Enter Password">
+
+<button onclick="unlock()">ACCESS</button>
+</div>
+
+<div id="gift">
+<h1>ACCESS GRANTED 🎉</h1>
+
+<div class="message">
+<p class="type">
+Happy birthday mere bhai!
+
+Wishing you a day filled with laughter, love, and all your favorite things.
+
+I am so grateful to have you in my life and for another year of our friendship.
+
+May this next year bring you endless success, happiness, and unforgettable adventures.
+</p>
+</div>
+</div>
+
+</div>
+
+<script>
+function unlock(){
+    let password = document.getElementById("pass").value;
+
+    if(password === "1505"){
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("gift").style.display="block";
+    }
+    else{
+        alert("ACCESS DENIED ❌");
+    }
+}
+
+/* MATRIX EFFECT */
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const letters = "01HACKED";
+const fontSize = 16;
+const columns = canvas.width/fontSize;
+
+const drops = [];
+
+for(let x=0; x<columns; x++){
+    drops[x]=1;
+}
+
+function draw(){
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#00ff66";
+    ctx.font=fontSize+"px monospace";
+
+    for(let i=0; i<drops.length; i++){
+
+        const text = letters[Math.floor(Math.random()*letters.length)];
+
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+        if(drops[i]*fontSize > canvas.height && Math.random()>0.975){
+            drops[i]=0;
+        }
+
+        drops[i]++;
+    }
+}
+
+setInterval(draw,33);
+</script>
+
+</body>
+</html>
